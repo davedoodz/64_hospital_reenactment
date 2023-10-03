@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heatmap</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+            gap: 1px;
+            margin: 20px;
+            width: 352px; /* Total width for 16 cells */
+        }
+
+        .cell {
+            width: 20px;
+            height: 20px;
+            border: 1px solid black;
+            background-color: lightgrey; /* This will be replaced by JS */
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            fetch('/get_data')
+                .then(response => response.json())
+                .then(data => {
+                    const grid = document.querySelector(".grid");
+                    data.forEach(value => {
+                        const cell = document.createElement("div");
+                        cell.className = "cell";
+                        cell.style.backgroundColor = valueToColor(value);
+                        grid.appendChild(cell);
+                    });
+                });
+        }
+
+        function valueToColor(value) {
+            // Convert your value to a color here.
+            // This is a placeholder. Adjust accordingly.
+            return value > 100 ? "red" : "blue";
+        }
+    </script>
+</head>
+<body>
+    <div class="grid"></div>
+</body>
+</html>
